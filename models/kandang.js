@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
 
-  const Kandang = sequelize.define('Kandang', {
+  const Kandang = sequelize.define('kandang', {
 
     id: {
       type: DataTypes.INTEGER,    
       primaryKey: true,           
-      autoIncrement: true         
+      autoIncrement: true      
     },
 
     Nama_Hewan: {
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Usia_Hewan: {
       type: DataTypes.INTEGER, 
-      autoIncrement: true         
+      autoIncrement: false        
     },
 
     Jenis_Hewan: {

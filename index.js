@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.post('/kandang', async (req, res) => {
   try {
-    const kandang = await db.Kandang.create(req.body);
+    const kandang = await db.kandang.create(req.body);
     res.send(kandang);
   } catch (error) {
     res.status(500).send({ message: error.message });
