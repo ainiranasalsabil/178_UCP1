@@ -10,36 +10,60 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 
-app.post('/Kandang', async (req, res) => {
+app.post('/kandang', async (req, res) => {
   try {
-    const Kandang = await db.Kandang.create(req.body);
+    const kandang = await db.Kandang.create(req.body);
+    res.send(kandang);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+app.get('/kandang', async (req, res) => {
+  try {
+    const Kandang = await db.kandang.findAll();
     res.send(Kandang);
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
 });
 
-app.get('/Kandang', async (req, res) => {
-  try {
-    const Kandang = await db.Kandang.findAll();
-    res.send(Kandang);
-  } catch (error) {
-    res.status(500).send({ message: error.message });
-  }
-});
 
-
-app.put('/Kandang/:id', async (req, res) => {
+app.put('/kandang/:id', async (req, res) => {
   const id = req.params.id;
   try {
-    const Kandang = await db.Kandang.findByPk(id);
-    if (!Kandang) {
+    const kandang = await db.kandang.findByPk(id);
+    if (!kandang) {
       return res.status(404).send({ message: "data Kandang is not found" });
     }
-    await Kandang.update(req.body);
-    res.send({ message: "Data Kandang berhasil diupdate", data: film });
+    await kandang.update(req.body);
+    res.send({ message: "Data Kandang berhasil diupdate", data: kandang });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
 });
+
+app.delete('/kandang/:id', async (req, res) => {
+  const id = req.params.id;
+  try {
+    const kandang = await db.kandang.findByPk(id);
+    if (!kandang) {
+      return res.status(404).send({ message: "data Kandang is not found" });
+    }
+    await kandang.destroy();
+    res.send({ message: "Data Kandang berhasil dihapus" });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
+db.sequelize.sync()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error('Database sync error:', err);
+  });
 
