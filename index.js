@@ -19,3 +19,12 @@ app.post('/Kandang', async (req, res) => {
   }
 });
 
+app.get('/Kandang', async (req, res) => {
+  try {
+    const Kandang = await db.Kandang.findAll();
+    res.send(Kandang);
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+});
+
